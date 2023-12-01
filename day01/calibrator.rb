@@ -22,11 +22,11 @@ module Calibrator
     '9' => 9,
   }
 
-  def run(filepath = 'test_input.txt')
-    regex = Regexp.new('(?=(' + STR_TO_DIGIT.keys.join('|') + '))')
+  REGEX = Regexp.new('(?=(' + STR_TO_DIGIT.keys.join('|') + '))')
 
+  def run(filepath = 'test_input.txt')
     sum = File.readlines(filepath).map do |line|
-      digits = line.scan(regex).flatten
+      digits = line.scan(REGEX).flatten
       "#{STR_TO_DIGIT[digits.first]}#{STR_TO_DIGIT[digits.last]}".to_i
     end.sum
 
