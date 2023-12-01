@@ -26,18 +26,11 @@ module Calibrator
     regex = Regexp.new('(?=(' + STR_TO_DIGIT.keys.join('|') + '))')
 
     sum = File.readlines(filepath).map do |line|
-      digits_to_number(line.scan(regex).flatten)
+      digits = line.scan(regex).flatten
+      "#{STR_TO_DIGIT[digits.first]}#{STR_TO_DIGIT[digits.last]}".to_i
     end.sum
 
     puts sum
-  end
-
-  private def digits_to_number(digits)
-    if digits.size < 2
-      "#{STR_TO_DIGIT[digits.first]}#{STR_TO_DIGIT[digits.first]}".to_i
-    else
-      "#{STR_TO_DIGIT[digits.first]}#{STR_TO_DIGIT[digits.last]}".to_i
-    end
   end
 end
 
