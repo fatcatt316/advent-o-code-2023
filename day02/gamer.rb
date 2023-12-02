@@ -9,21 +9,19 @@ module Gamer
   }
 
   def run(filepath = 'test_input.txt')
-    id_sum = 0
-    File.readlines(filepath).map do |line|
+    id_sum = File.readlines(filepath).map do |line|
       id, sets = line.split(':')
       next unless sets.split(';').all? { |set| possible_set?(set) }
-      id_sum += id.match(/\d+/)[0].to_i
-    end
+      id.match(/\d+/)[0].to_i
+    end.compact.sum
 
     puts id_sum
   end
 
   def run2(filepath = 'test_input.txt')
-    power_sum = 0
-    File.readlines(filepath).map do |line|
-      _id, sets = line.split(':')
-      power_sum += power(sets)
+    power_sum = File.readlines(filepath).sum do |line|
+      sets = line.split(':').last
+      power(sets)
     end
 
     puts power_sum
@@ -36,14 +34,13 @@ module Gamer
     end
   end
 
-  # 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
   private def power(sets)
     max_color_counts = Hash.new(0)
 
     sets.split(';').each do |set|
       CUBES.keys.each do |color|
         match = set.match(/(\d+) #{color}/)
-        next if match.nil?
+        next unless match
 
         max_color_counts[color] = [match[1].to_i, max_color_counts[color]].max
       end
