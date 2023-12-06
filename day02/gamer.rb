@@ -1,4 +1,3 @@
-require 'pry'
 module Gamer
   extend self
 
@@ -46,7 +45,7 @@ module Gamer
       end
     end
 
-    max_color_counts.values.inject(:*) 
+    max_color_counts.values.inject(:*)
   end
 end
 
