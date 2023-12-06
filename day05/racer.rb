@@ -1,4 +1,3 @@
-require 'pry'
 module Racer
   extend self
 
@@ -6,8 +5,8 @@ module Racer
     times, distances = get_times_and_distances(filepath, part)
 
     ways_to_win = times.size.times.map do |race_index|
-      max_time_revving_up(times[race_index], distances[race_index]) -
-      min_time_revving_up(times[race_index], distances[race_index]) +
+      mix_or_max_time_revving_up(times[race_index], distances[race_index], :max) -
+      mix_or_max_time_revving_up(times[race_index], distances[race_index], :min) +
       1
     end.inject(:*)
 
@@ -22,19 +21,19 @@ module Racer
     end
   end
 
-  private def max_time_revving_up(total_time_available, min_required_distance)
-    (total_time_available-1).downto(1).each do |time_spent_revving_up|
+  private def mix_or_max_time_revving_up(total_time_available, min_required_distance, min_or_max = :min)
+    enumerator(total_time_available, min_or_max).each do |time_spent_revving_up|
       mm_per_ms = time_spent_revving_up
       total_distance = (total_time_available - time_spent_revving_up) * mm_per_ms
       return time_spent_revving_up if total_distance > min_required_distance
     end
   end
 
-  private def min_time_revving_up(total_time_available, min_required_distance)
-    1.upto(total_time_available-1).each do |time_spent_revving_up|
-      mm_per_ms = time_spent_revving_up
-      total_distance = (total_time_available - time_spent_revving_up) * mm_per_ms
-      return time_spent_revving_up if total_distance > min_required_distance
+  private def enumerator(total_time_available, min_or_max)
+    if min_or_max == :min
+      1.upto(total_time_available-1)
+    else
+      (total_time_available-1).downto(1)
     end
   end
 end
