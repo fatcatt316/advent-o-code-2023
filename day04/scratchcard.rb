@@ -1,4 +1,3 @@
-require 'pry'
 module Scratchcard
   extend self
 
@@ -23,7 +22,7 @@ module Scratchcard
 
       (card_num+1..card_stats[card_num][:match_count]+card_num).each do |card_num_to_add_to|
         next unless card_stats[card_num_to_add_to]
-        
+
         card_stats[card_num_to_add_to][:copy_count] += number_to_add_to_each_card
       end
     end
@@ -45,7 +44,7 @@ module Scratchcard
 
       card_stats[card_number] = {match_count: matches.size, copy_count: 1}
     end
-    
+
     card_stats
   end
 end

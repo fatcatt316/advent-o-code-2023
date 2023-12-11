@@ -1,4 +1,3 @@
-require 'pry'
 module Gondola
   extend self
 
